@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>render第二个参数</title>
+</head>
+<body>
+<div id="app">
+    <!--render的第二个参数可选，是数据对象，类型只能是Object-->
+    <child >
+        蜡笔小新
+    </child>
+</div>
+<hr>使用render函数达到同样的效果
+
+<script src="../../node_modules/vue/dist/vue.js"></script>
+<script>
+
+    let child={
+        render:function(createElement){
+            return createElement({
+                template:"<div>汗滴禾下土</div>"
+            },{
+                "class":{//class是关键字最好用引号引上，不引不会有问题
+                    foo:true,
+                    baz:false
+                },
+                style:{
+                    color:'red',
+                    fontSize:'32px'
+                },
+                //正常的html特性
+                attrs:{
+                    id:'mycom',
+                    src:'http://qq.com',
+
+                },
+                //用来写原生的dom属性
+                domProps:{
+                    innerHTML:'<span style="color:blue;fontSize:29px;">谁知盘中餐</span>'//替换了前面模版template中的标签
+                }
+            })
+        },
+        props:["level"],
+
+    }
+    let app=new Vue({
+        el:'#app',
+        components:{
+            child
+        }
+    })
+
+</script>
+</body>
+</html>

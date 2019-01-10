@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">使用vue组件定义
+    <child :level="level">
+        蜡笔小新
+    </child>
+</div>
+<hr>使用render函数达到同样的效果
+<div id="app2">
+    <child2 :level="levela">灌篮高手</child2>
+    {{levela}}
+    <!--将父组件中data的数据levela绑定给作为变量名为level中间介质，由level通过子组件的props传给子组件，这个变量带回去的数据子组件能直接引用-->
+</div>
+
+<template id="hdom">
+    <div>
+        <h1 v-if="level===1">
+            <slot></slot>
+        </h1>
+        <h2 v-if="level===2">
+            <slot></slot>
+        </h2>
+        <h3 v-if="level===3">
+            <slot></slot>
+        </h3>
+    </div>
+
+</template>
+<script src="../../node_modules/vue/dist/vue.js"></script>
+<script>
+
+    let child={
+        template:'#hdom',
+        props:["level"],
+
+    }
+    let app=new Vue({
+        el:'#app',
+        data:{
+            level:2
+        },
+        components:{
+            child
+        }
+    })
+    let child2={
+        render:function(createElement){
+            return createElement('h'+this.level,
+                this.$slots.default)
+        },
+        props:["level"]
+    }
+    let app2=new Vue({
+        el:'#app2',
+        components:{
+            child2
+        },
+        data:{
+            levela:1
+        }
+    })
+</script>
+</body>
+</html>

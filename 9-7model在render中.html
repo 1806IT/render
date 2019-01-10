@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>v-model在render中使用</title>
+</head>
+<body>
+<div id="app">
+    <child :name="name" @input="showName"></child>
+    <br>
+    {{name}}
+</div>
+
+<hr>使用v-model方法实现同样效果
+
+<div id="app2">
+
+    <child2 :name="name" v-model="name"></child2>
+    {{name}}
+</div>
+
+
+<script src="../../node_modules/vue/dist/vue.js"></script>
+<script>
+
+    let child={
+        render:function(createElement){
+            var self=this//this为当前的VUE实例
+            return createElement('input',{
+                domProps:{
+                    value:self.name
+                },
+                on:{
+                    input:function(event){
+                        //此处的this指的是什么？
+                        self.$emit('input',event.target.value)
+                    }
+                }
+            })
+        },
+        props:["name"]
+
+    }
+    let app=new Vue({
+        el:'#app',
+        data:{
+            name: 'Hello'
+        },
+        components:{
+            child
+        },
+        methods:{
+            showName:function(value){
+                this.name=value
+            }
+        }
+    })
+    let child2={
+        render :function(createElement){
+            self=this
+            return createElement('input',{
+                domProps:{
+                    value:self.name
+                },
+                on:{
+                    input:function(event){
+                        self.$emit('input',event.target.value)
+                    }
+                }
+            })
+        },
+        props:['name']
+    }
+    let app2=new Vue({
+        el:'#app2',
+        components:{
+            child2
+        },
+        data:{
+            name:"Jack"
+        }
+    })
+</script>
+</body>
+</html>

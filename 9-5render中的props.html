@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>插槽在render中的应用</title>
+</head>
+<body>
+<div id="app">
+    <child >
+        <p>采菊东篱下</p>
+        <h5 slot="footer">这是文章最后一段</h5>
+        <p>悠然见南山</p>
+        <h3 slot="header">我是大标题</h3>
+
+    </child>
+</div>
+<div id="app2">
+    <child2>
+        <template slot="abc" slot-scope="xxx">
+            {{xxx.text}}
+            <br>
+            {{xxx.ss}}
+        </template>
+    </child2>
+</div>
+
+<template id="tem">
+    <div>
+        <slot text="我来自子组件的数据" ss="abcde" name="abc">
+
+        </slot>
+    </div>
+</template>
+<script src="../../node_modules/vue/dist/vue.js"></script>
+<script>
+//第三个参数存的是虚拟节点
+    let child={
+        render:function(createElement){
+            var header=this.$slots.header //这个返回的内容就是含有虚拟节点的数组
+            var main=this.$slots.default
+            var footer=this.$slots.footer
+            console.log(footer)
+            return createElement('div',[
+                createElement('header',header),//返回的是虚拟节点
+                createElement('main',main),
+                createElement('footer',footer)
+            ])
+        },
+        props:["level"],
+
+    }
+    let app=new Vue({
+        el:'#app',
+        components:{
+            child
+        }
+    })
+
+    let child2={
+        template:'#tem',
+        mounted:function(){
+            //访问插槽
+
+            var con= this.$slots.abc
+            console.log(' hei')
+            console.log(con)
+        }
+    }
+    let app2=new Vue({
+        el:'#app2',
+        components:{
+            child2
+        }
+
+    })
+</script>
+</body>
+</html>

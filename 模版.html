@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    <child >
+        蜡笔小新
+    </child>
+</div>
+<hr>使用render函数达到同样的效果
+
+<script src="../../node_modules/vue/dist/vue.js"></script>
+<script>
+
+    let child={
+        template:'#hdom',
+        props:["level"],
+
+    }
+    let app=new Vue({
+        el:'#app',
+        data:{
+            level:2
+        },
+        components:{
+            child
+        }
+    })
+
+</script>
+</body>
+</html>

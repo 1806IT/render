@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>props在render中的应用</title>
+</head>
+<body>
+<div id="app">
+    <button @click="switchShow">切换美女</button>{{show}}
+    <child :show="show"></child>
+</div>
+<script src="../../node_modules/vue/dist/vue.js"></script>
+<script>
+//需求,点击按钮切换美女图片//晚上再做个点击按钮用父传子方式做一个
+    let child={
+        render:function(createElement){
+            var imgsrc;
+            if(this.show){
+                imgsrc='./01_07.jpg'
+            }else{
+                imgsrc='./01_08.jpg'
+            }
+            return createElement('img',{
+                attrs:{
+                    src:imgsrc
+                },
+                style:{
+                    width:'200px'
+                }
+            })
+        },
+        props:["show"],
+        data(){
+            return {open:this.show}
+        }
+
+    }
+    let app=new Vue({
+        el:'#app',
+        data:{
+            show:false
+        },
+        methods:{
+          switchShow:function(){
+            this.show=!this.show
+          }
+        },
+        components:{
+            child
+        }
+    })
+
+</script>
+</body>
+</html>

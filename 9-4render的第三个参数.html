@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>render的第三个参数</title>
+</head>
+<body>
+render 的第三个参数可选，类型为string,array(数组类型较为常用)，因为第二个参数固定为对象类型，所以看到string和arr就是第三个参数
+<div id="app">
+    <child >
+    </child>
+</div>
+<script src="../../node_modules/vue/dist/vue.js"></script>
+<script>
+
+    let child={
+        //第三个参数代表子节点,作为构建节点的子节点来使用
+        render:function(createElement){
+            return createElement('div',[
+                createElement('h1',"我是h1标题"),
+                createElement('h3',"我是h3标题")
+            ])
+        },
+        props:["level"],
+
+    }
+    let app=new Vue({
+        el:'#app',
+        components:{
+            child
+        }
+    })
+
+</script>
+</body>
+</html>
